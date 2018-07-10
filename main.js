@@ -24,4 +24,13 @@ io.on('connection', function (socket){
   socket.on('broadcastTest', function(data){
     socket.broadcast.emit('broadcastTest', JSON.stringify(data));
   });
+
+  socket.on('endingTurn', function(data){
+    io.sockets.emit('endingTurn', data.player + ' has ended their turn!. Next player is : something later');
+  });
+
+  socket.on('rollingDice', function(data){
+    io.sockets.emit('rollingDice', data.player + ' has rolled a ' + data.roll + '!');
+  });
+
 });
