@@ -1,14 +1,20 @@
 const express = require('express');
-var app = express();
 var socket = require('socket.io');
+const bodyParser = require("body-parser");
 
 //Start server
+var app = express();
+app.use('/',require('./routes.js'));
 var server = app.listen(8080, function(){
   console.log('listening on 8080');
 });
 
 //Serve up public folder
 app.use(express.static('public'));
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 //socket setup
 var io = socket(server);
@@ -26,10 +32,13 @@ io.on('connection', function (socket){
   });
 
   socket.on('endingTurn', function(data){
-    io.sockets.emit('endingTurn', data.player + ' has ended their turn!. Next player is : something later');
+    console.log(`Data received from client ${socket.id}.  ${JSON.stringify(data)}`);
+    socket.broadcast.emit('endingTurn', data.player + ' has ended their turn!. Next player is : something later');
+    socket.emit('yourTurnEnd', 'Your turn has ended!');
   });
 
   socket.on('rollingDice', function(data){
+    console.log(`Data received from client ${socket.id}.  ${JSON.stringify(data)}`);
     io.sockets.emit('rollingDice', data.player + ' has rolled a ' + data.roll + '!');
   });
 

@@ -9,6 +9,12 @@ class NatacController{
     console.log(`Received request on test get endpoint : ${req.params.input}`);
     res.send(`Request received! ${req.params.input}`);
   }
+
+  createGameRoom(req,res){
+    console.log(`Game room request received ${req.body}`);
+    res.send('ending');
+  }
+
 }
 
 module.exports = new NatacController();

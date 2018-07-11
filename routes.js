@@ -1,6 +1,8 @@
-//Mapping for all endpoints to the corresponding functions
-module.exports = function(app){
-  var natac = require('./NatacController.js');
-  app.get('/get', natac.testGet);
-  app.get('/get/:input',natac.testGetInput);
-}
+var router = require('express').Router();
+var natac = require('./NatacController.js');
+
+router.get('/get', natac.testGet);
+router.get('/get/:input',natac.testGetInput);
+router.post('/room',natac.createGameRoom);
+
+module.exports = router;
