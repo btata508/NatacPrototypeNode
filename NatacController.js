@@ -11,8 +11,9 @@ class NatacController{
   }
 
   createGameRoom(req,res){
-    console.log(`Game room request received ${req.body}`);
-    res.send('ending');
+    console.log(`Game room request received ${JSON.stringify(req.body)}`);
+    //Need to set header then return some value for room id
+    res.sendStatus(200);
   }
 
 }

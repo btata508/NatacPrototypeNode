@@ -52,8 +52,6 @@ rollDice.addEventListener('click',function(){
 
 roomSubmit.addEventListener('click', function(){
     var roomInput = document.getElementById('roomInput').value;
-    console.log('Input being checked')
-    console.log(roomInput);
     if(roomInput){
       var roomInputData = {
         player:'Brian',
@@ -67,11 +65,5 @@ roomSubmit.addEventListener('click', function(){
       xmlhttp.open("POST", "http://localhost:8080/room");
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(JSON.stringify(roomInputData));
-      console.log('sent request to server')
     }
 });
-
-roomSubmit = function(){
-  //TODO Hit endpoint on server to create the room, wait for response, then connect on the socket with the room created
-  console.log('Room submitted.  ' + roomInput.value);
-}

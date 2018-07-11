@@ -4,17 +4,13 @@ const bodyParser = require("body-parser");
 
 //Start server
 var app = express();
+//Serve up public folder
+app.use(express.static('public'));
+app.use(bodyParser.json());
 app.use('/',require('./routes.js'));
 var server = app.listen(8080, function(){
   console.log('listening on 8080');
 });
-
-//Serve up public folder
-app.use(express.static('public'));
-
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
 
 //socket setup
 var io = socket(server);
