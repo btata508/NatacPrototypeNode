@@ -53,16 +53,22 @@ rollDice.addEventListener('click',function(){
 roomSubmit.addEventListener('click', function(){
     var roomInput = document.getElementById('roomInput').value;
     if(roomInput){
-      var roomInputData = {
-        player:'Brian',
-        gameType:'Vanilla',
-        numPlayers:{
-          low:3,
-          high:4
-        }
+      var roomInputData ={
+        active:true,
+        players:{ player1 : 'TestRoom', player2:null,player3:null,player4:null},
+        leadingPlayer: 'TestLeading',
+        currentPlayer:'TestCurrent',
+        name:roomInput,
+        board:{}
       }
       var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.response.roomId);
+        }
+      }
       xmlhttp.open("POST", "http://localhost:8080/room");
+      xmlhttp.responseType = 'json';
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(JSON.stringify(roomInputData));
     }

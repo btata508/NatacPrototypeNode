@@ -1,8 +1,16 @@
 //Controller class for handling requests on the server
+var GameDao = require('./GameDao.js');
+
 class NatacController{
   testGet(req,res){
     console.log('Received request on test get endpoint');
-    res.send('Test Function');
+    GameDao.getCurrentGameRooms().then(function(fulfilled){
+      res.setHeader('Content-Type', 'application/json');
+      res.send(JSON.stringify(fulfilled));
+    }).catch(function(error){
+      res.status(500);
+      res.send(error);
+    });
   }
 
   testGetInput(req,res){
@@ -13,7 +21,14 @@ class NatacController{
   createGameRoom(req,res){
     console.log(`Game room request received ${JSON.stringify(req.body)}`);
     //Need to set header then return some value for room id
-    res.sendStatus(200);
+    GameDao.createGameRoom(req.body).then(function(roomId){
+      console.log(`Room ID from promise ${roomId}`)
+      res.set('Content-Type', 'application/json');
+      res.status(200);
+      res.send({'roomId':roomId});
+    }).catch(function(error){
+      res.sendStatus(500);
+    });
   }
 
 }
