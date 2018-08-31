@@ -6,13 +6,13 @@ var endTurn = document.getElementById('endTurn'),
     mainText = document.getElementById('mainText'),
     roomSubmit = document.getElementById('submitRoom');
 
-//Emit on load
-socket.emit('clientTest', {
-  message: 'Hi there'
-});
-socket.emit('broadcastTest', {
-  message: 'Sending to other clients'
-});
+// //Emit on load
+// socket.emit('clientTest', {
+//   message: 'Hi there'
+// });
+// socket.emit('broadcastTest', {
+//   message: 'Sending to other clients'
+// });
 
 //Log events being received
 socket.on('serverTest', function(data){

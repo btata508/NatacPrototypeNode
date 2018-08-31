@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/';
+var url = 'mongodb://mongo:27017/';
 
 class GameDao{
 
@@ -11,6 +11,7 @@ class GameDao{
         if(err){
           reject(err);
         }
+        console.log('Connected to DB : ' + db);
         var database = db.db('Game_dev');
         database.collection('Game_dev').find({'active':true}).toArray(function(err, docs){
           if(err){

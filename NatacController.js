@@ -1,5 +1,5 @@
 //Controller class for handling requests on the server
-var GameDao = require('./GameDao.js');
+var GameDao = require('./GameDAO.js');
 
 class NatacController{
   testGet(req,res){
