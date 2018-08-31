@@ -1,0 +1,22 @@
+version: "3"
+services:
+  natac:
+    image: "node:8"
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+     - ./:/home/node/app
+    ports:
+       - "8080:8080"
+    command:
+       "node main.js"
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      -"27017:27017"
+    volumes:
+      - data-volume:/data/db
+  volumes:
+    data-volume:
