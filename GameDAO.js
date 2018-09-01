@@ -5,7 +5,6 @@ var dbName = 'Game_dev';
 var collectionName = 'Game_dev';
 
 class GameDao{
-
   //Gets all current rooms in the database that are active
   //Returns promise containing all active game rooms
   getActiveGameRooms(){
@@ -29,6 +28,7 @@ class GameDao{
     });
   }
 
+  //Create game room with game data
   createGameRoom(gameData){
     return new Promise((resolve, reject) => {
       //Validate entry(Mongoose schema?)
@@ -54,74 +54,51 @@ class GameDao{
     });
   }
 
-  addPlayerToRoom(playerToAdd){
-    return new Promise((resolve, reject) => {
-      MongoClient.connect(url, function(err, db){
-        if(err){
+  //Return mongo doc by id
+  findRoomById(id){
+    return new Promise((resolve, reject) =>{
+      MongoClient.connect(url, function(err,db){
+        if(err || !id){
           reject(err);
           db.close();
         }
         else{
-          if(playerToAdd){
-            console.log(playerToAdd.id);
-            var object_id = new mongo.ObjectID(playerToAdd.id);
-            var criteria = {'_id' : object_id};
-            var database = db.db(dbName);
-            var playerData;
-            var joined = false;
-            //Get current data from mongo
-            database.collection(collectionName).findOne(criteria, function (err, result){
-              if(err){
-                reject(err);
-                db.close();
-              }
-              else{
-                //TODO validate whether the room is full or not and reject if room is full
-                if(result){
-                  console.log("Doc found : " + JSON.stringify(result));
-                  console.log("Players in the room : " + JSON.stringify(result.players));
-                  var players = result.players;
-                  for(var i = 0; i < players.length; i++){
-                    console.log(players[i]);
-                    if(!players[i].player){
-                      players[i].player = playerToAdd;
-                      joined = true;
-                      break;
-                    }
-                  }
-                  if(!joined){
-                    resolve(false);
-                    db.close();
-                  }
-                  else{
-                    playerData = players;
-                    //Update mongo with new player
-                    if(playerData){
-                      var updateStatement = {$set : {'players': playerData}}
-                      console.log(updateStatement);
-                      database.collection(collectionName).updateOne(criteria, updateStatement, function(err, result){
-                        if(err){
-                          db.close();
-                          reject(err);
-                        }
-                        else{
-                          console.log('Updated doc');
-                          resolve(true);
-                          db.close();
-                        }
-                      });
-                    }
-                  }
-                }
-                else{
-                  reject();
-                  db.close();
-                }
-              }
-            });
-          }
+          console.log(`Getting room for id ${id}`);
+          var database = db.db(dbName);
+          var criteria = {'_id': new mongo.ObjectID(id)};
+          database.collection(collectionName).findOne(criteria, function (err, result){
+            err ? reject(err) : resolve(result);
+            db.close();
+          });
         }
       });
+    });
+  }
+
+  //Updates player list with input list of players
+  updatePlayersByRoomId(players, id){
+    return new Promise((resolve, reject) => {
+      console.log(`Updating players : ${JSON.stringify(players)} room for id ${id}`);
+      if(!players || !id){
+        reject(false);
+      }
+      else{
+        MongoClient.connect(url, function(err,db){
+          if(err){
+            reject(err);
+            db.close();
+          }
+          else{
+            var criteria = {'_id': new mongo.ObjectID(id)};
+            var updateStatement = {$set : {'players': players}};
+            var database = db.db(dbName);
+            database.collection(collectionName).updateOne(criteria, updateStatement, function (err, result){
+              err ? reject(false) : resolve(true);
+              db.close();
+            });
+          }
+        });
+      }
     });
   }
 }
