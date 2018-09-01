@@ -31,6 +31,20 @@ class NatacController{
     });
   }
 
+  joinGameRoom(req,res){
+    console.log(`Recieved request with ${req.body}`);
+    GameDao.addPlayerToRoom(req.body).then(function(joined, room){
+      if(joined && room){
+        console.log(`Player ${req.body.playerName} has joined game room ${room.roomId} succesfully`);
+        res.set('Content-Type', 'application/json');
+        res.status(200);
+        res.send({'room':room});
+      }
+    }).catch(function(error){
+      res.sendStatus(500);
+    });
+  }
+
 }
 
 module.exports = new NatacController();

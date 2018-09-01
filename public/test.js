@@ -5,7 +5,8 @@ var endTurn = document.getElementById('endTurn'),
     rollDice = document.getElementById('rollDice'),
     mainText = document.getElementById('mainText'),
     roomSubmit = document.getElementById('submitRoom'),
-    joinRoomButton = document.getElementById('joinRoom');
+    joinRoomButton = document.getElementById('joinRoom'),
+    joinRoomTestButton = document.getElementById('joinRoomTest');
 
 // //Emit on load
 // socket.emit('clientTest', {
@@ -77,4 +78,21 @@ roomSubmit.addEventListener('click', function(){
 
 joinRoomButton.addEventListener('click', function(){
   window.location.href = "./roomFind.html"
+});
+
+joinRoomTestButton.addEventListener('click', function(){
+      var roomJoinData ={
+        playerName: 'TestPlayer',
+        id:'5b8a0e54dffabf5a1e308b0f'
+      };
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.response);
+        }
+      }
+      xmlhttp.open("POST", "http://localhost:8080/joinRoom");
+      xmlhttp.responseType = 'json';
+      xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xmlhttp.send(JSON.stringify(roomJoinData));
 });
