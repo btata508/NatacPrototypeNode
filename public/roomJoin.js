@@ -5,7 +5,7 @@ console.log("Join room page entered");
 
 //On load
 //Gets the list of current game rooms and displays a list of rooms
-var activeRooms = getCurrentGameRooms();
+var activeRooms = getActiveGameRooms();
 //Allows clicking one room to join it and sends that request to the server
 
 function joinRoom(roomId, userName){
@@ -20,7 +20,7 @@ function joinRoom(roomId, userName){
 }
 
 //Gets the active rooms and writes to screen
-function getCurrentGameRooms(){
+function getActiveGameRooms(){
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     //Write to screen when call returns from server
@@ -29,7 +29,7 @@ function getCurrentGameRooms(){
         writeListToScreen(this.response);
     }
   }
-  xmlhttp.open("GET", "http://localhost:8080/get");
+  xmlhttp.open("GET", "http://localhost:8080/getActiveGameRooms");
   xmlhttp.responseType = 'json';
   xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xmlhttp.send(null);

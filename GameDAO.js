@@ -5,7 +5,7 @@ class GameDao{
 
   //Gets all current rooms in the database that are active
   //Returns promise containing all active game rooms
-  getCurrentGameRooms(){
+  getActiveGameRooms(){
     return new Promise((resolve, reject) => {
       MongoClient.connect(url, function(err,db){
         if(err){

@@ -2,9 +2,9 @@
 var GameDao = require('./GameDAO.js');
 
 class NatacController{
-  testGet(req,res){
-    console.log('Received request on test get endpoint');
-    GameDao.getCurrentGameRooms().then(function(fulfilled){
+  getActiveGameRooms(req,res){
+    console.log('Received request on getActiveGameRooms endpoint');
+    GameDao.getActiveGameRooms().then(function(fulfilled){
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.stringify(fulfilled));
     }).catch(function(error){
@@ -13,10 +13,10 @@ class NatacController{
     });
   }
 
-  testGetInput(req,res){
-    console.log(`Received request on test get endpoint : ${req.params.input}`);
-    res.send(`Request received! ${req.params.input}`);
-  }
+  // testGetInput(req,res){
+  //   console.log(`Received request on test get endpoint : ${req.params.input}`);
+  //   res.send(`Request received! ${req.params.input}`);
+  // }
 
   createGameRoom(req,res){
     console.log(`Game room request received ${JSON.stringify(req.body)}`);
