@@ -49,7 +49,10 @@ io.on('connection', function (socket){
 
   socket.on('rollingDice', function(data){
     console.log(`Data received from client ${socket.id}.  ${JSON.stringify(data)}`);
-    io.sockets.emit('rollingDice', data.player + ' has rolled a ' + data.roll + '!');
+    //io.sockets.emit('rollingDice', data.player + ' has rolled a ' + data+ '!');
+    //Roll dice
+
+    //Emit roll to all clients
   });
 
 });
