@@ -4,7 +4,8 @@ var socket = io.connect('http://localhost:8080');
 var endTurn = document.getElementById('endTurn'),
     rollDice = document.getElementById('rollDice'),
     mainText = document.getElementById('mainText'),
-    roomSubmit = document.getElementById('submitRoom');
+    roomSubmit = document.getElementById('submitRoom'),
+    joinRoomButton = document.getElementById('joinRoom');
 
 // //Emit on load
 // socket.emit('clientTest', {
@@ -72,4 +73,8 @@ roomSubmit.addEventListener('click', function(){
       xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       xmlhttp.send(JSON.stringify(roomInputData));
     }
+});
+
+joinRoomButton.addEventListener('click', function(){
+  window.location.href = "./roomFind.html"
 });
