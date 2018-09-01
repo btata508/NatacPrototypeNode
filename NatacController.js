@@ -33,12 +33,18 @@ class NatacController{
 
   joinGameRoom(req,res){
     console.log(`Recieved request with ${req.body}`);
-    GameDao.addPlayerToRoom(req.body).then(function(joined, room){
-      if(joined && room){
-        console.log(`Player ${req.body.playerName} has joined game room ${room.roomId} succesfully`);
+    GameDao.addPlayerToRoom(req.body).then(function(joined){
+      if(joined){
+        console.log(`Player ${req.body.playerName} has joined game room succesfully`);
         res.set('Content-Type', 'application/json');
         res.status(200);
-        res.send({'room':room});
+        res.send({'room':'test'});
+      }
+      else{
+        console.log(`Player ${req.body.playerName} has not joined game room succesfully`);
+        res.set('Content-Type', 'application/json');
+        res.status(200);
+        res.send({'room':'testFail'});
       }
     }).catch(function(error){
       res.sendStatus(500);

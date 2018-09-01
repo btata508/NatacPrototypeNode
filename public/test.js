@@ -57,7 +57,7 @@ roomSubmit.addEventListener('click', function(){
     if(roomInput){
       var roomInputData ={
         active:true,
-        players:{ player1 : 'TestRoom', player2:null,player3:null,player4:null},
+        players:{ player : 'TestRoom', player:null,player:null,player:null},
         leadingPlayer: 'TestLeading',
         currentPlayer:'TestCurrent',
         name:roomInput,
